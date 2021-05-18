@@ -1,0 +1,36 @@
+name: versions
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  push:
+    branches:
+      - main
+      - releases/*
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  local-version:
+    runs-on: macos-latest
+    name: Run local action version
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Update Bundle identifier from Info.plist
+        uses: ./
+        with:
+          info-plist-path: './samples/Info.plist'
+          bundle-identifier: 'com.mycompany.app'
+          bundle-name: 'Name'
+          bundle-display-name: 'New App'
+          print-file: true
+
+      - name: Update Bundle identifier only from Info-1.plist
+        uses: ./
+        with:
+          info-plist-path: './samples/Info-1.plist'
+          bundle-identifier: 'com.mycompany.app'
+          print-file: true

@@ -1,0 +1,29 @@
+name: sample
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  push:
+    branches:
+      - main
+      - releases/*
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  demo:
+    runs-on: macos-latest
+    name: Sample demo
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Update Bundle identifier
+        uses: damienaicheh/update-ios-bundle-identifier-action@v1.0.0
+        with:
+          info-plist-path: './samples/Info.plist'
+          bundle-identifier: 'com.mycompany.app'
+          bundle-name: 'Name'
+          bundle-display-name: 'New App'
+          print-file: true
